@@ -1,0 +1,93 @@
+{
+  "站点ID": "101kanshu",
+  "站点名称": "101看书",
+  "站点地址": "https://www.101kanshu.net",
+  "图标": "",
+  "权重": "100",
+  "站点分类": "小说",
+  "httpheaders": "{\"User-Agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36\"}",
+  "启用": true,
+  
+  "书籍搜索": {
+    "搜索地址": "https://www.101kanshu.net/modules/article/search.php?searchkey=%@keyWord&page=%@pageIndex",
+    "书名": "//div[@id='hotcontent']/div[@class='item']/div[@class='image']/a/@title",
+    "书籍地址": "//div[@id='hotcontent']/div[@class='item']/div[@class='image']/a/@href || @js:\nlet url = 'https://www.101kanshu.net' + result;\nreturn url;",
+    "封面": "//div[@id='hotcontent']/div[@class='item']/div[@class='image']/a/img/@src || @js:\nif(!result.startsWith('http')){\n  return 'https://www.101kanshu.net' + result;\n}\nreturn result;",
+    "作者": "//div[@id='hotcontent']/div[@class='item']/dl/dd[1]/span/text()",
+    "简介": "//div[@id='hotcontent']/div[@class='item']/dl/dd[3]/text()",
+    "更多配置": {
+      "请求编码": "UTF-8",
+      "响应编码": "UTF-8"
+    }
+  },
+  
+  "书籍详情": {
+    "书名": "//div[@id='info']/h1/text()",
+    "封面": "//div[@id='fmimg']/img/@src || @js:\nif(!result.startsWith('http')){\n  return 'https://www.101kanshu.net' + result;\n}\nreturn result;",
+    "作者": "//div[@id='info']/p[1]/text() || @js:\nlet reg = /作.*?者[：:]/;\nreturn result.replace(reg, '').trim();",
+    "类别": "//div[@class='con_top']/a[2]/text()",
+    "简介": "//div[@id='intro']/p/text() || @js:\nlet reg = new RegExp('<br />', 'g');\nreturn result.replace(reg, '\\n').trim();",
+    "连载状态": "//div[@id='info']/p[2]/text() || @js:\nif(result.indexOf('连载') >= 0) return '连载中';\nif(result.indexOf('完') >= 0) return '已完结';\nreturn result;",
+    "最新章节": "//div[@id='info']/p[4]/a/text()",
+    "更多配置": {
+      "请求编码": "UTF-8",
+      "响应编码": "UTF-8"
+    }
+  },
+  
+  "章节列表": {
+    "下一级界面地址": "//div[@id='list']/dl/dd/a/@href || @js:\nlet url = 'https://www.101kanshu.net' + result;\nreturn url;",
+    "章节名称": "//div[@id='list']/dl/dd/a/text()",
+    "是否倒序": false,
+    "更多配置": {
+      "请求编码": "UTF-8",
+      "响应编码": "UTF-8"
+    }
+  },
+  
+  "章节内容": {
+    "正文": "//div[@id='content']/text() || @js:\nlet reg1 = new RegExp('一秒记住.*?提供你.*?阅读。', 'g');\nlet reg2 = new RegExp('http.*?net', 'g');\nlet content = result.replace(reg1, '').replace(reg2, '');\nreturn content.trim();",
+    "下一章地址": "//div[@class='bottem2']/a[3]/@href || @js:\nif(result && !result.startsWith('http')){\n  return 'https://www.101kanshu.net' + result;\n}\nreturn result;",
+    "更多配置": {
+      "请求编码": "UTF-8",
+      "响应编码": "UTF-8"
+    }
+  },
+  
+  "书籍分类": {
+    "请求信息": "@js:\nlet type = params.filters.type || '';\nlet status = params.filters.status || '';\nlet page = params.pageIndex || 1;\nlet url = 'https://www.101kanshu.net/novels/class/';\nif(type) url += type + '/';\nif(status == 'quanben') url = 'https://www.101kanshu.net/quanben/novels/class/' + (type ? type + '/' : '');\nurl += page + '.html';\nreturn url;",
+    "书名": "//div[@class='novelslist2']/ul/li/span[@class='s2']/a/@title",
+    "书籍地址": "//div[@class='novelslist2']/ul/li/span[@class='s2']/a/@href || @js:\nif(!result.startsWith('http')){\n  return 'https://www.101kanshu.net' + result;\n}\nreturn result;",
+    "作者": "//div[@class='novelslist2']/ul/li/span[@class='s4']/text()",
+    "更新时间": "//div[@class='novelslist2']/ul/li/span[@class='s5']/text()",
+    "最新章节": "//div[@class='novelslist2']/ul/li/span[@class='s3']/a/text()",
+    "更多配置": {
+      "pageSize": 100,
+      "requestFilters": [
+        {
+          "key": "type",
+          "items": [
+            {"title": "全部", "value": ""},
+            {"title": "玄幻", "value": "1"},
+            {"title": "武侠", "value": "2"},
+            {"title": "都市", "value": "3"},
+            {"title": "历史", "value": "4"},
+            {"title": "科幻", "value": "5"},
+            {"title": "游戏", "value": "6"},
+            {"title": "女生", "value": "7"},
+            {"title": "其他", "value": "8"}
+          ]
+        },
+        {
+          "key": "status",
+          "items": [
+            {"title": "全部", "value": ""},
+            {"title": "完本", "value": "quanben"}
+          ]
+        }
+      ],
+      "请求编码": "UTF-8",
+      "响应编码": "UTF-8"
+    }
+  }
+}
