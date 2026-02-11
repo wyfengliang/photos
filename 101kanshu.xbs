@@ -1,0 +1,46 @@
+{
+  "name": "101看书",
+  "url": "https://www.101kanshu.net/",
+  "weight": 9999,
+  "httpHeaders": "{\"User-Agent\":\"Mozilla\\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/96.0.4664.110 Safari\\/537.36\"}",
+  "search": {
+    "request": "@js:return {'url':'https://www.101kanshu.net/search.php', 'postData':'keyword=' + params.keyWord + '&page=' + params.pageIndex};",
+    "bookName": "//ol/li/h3/a/text()",
+    "bookUrl": "//ol/li/h3/a/@href || @js:return 'https://www.101kanshu.net' + result;",
+    "author": "//ol/li/p[starts-with(text(),'作者：')]/text() || @js:return result.replace('作者：','');",
+    "latestChapter": "//ol/li/p[starts-with(text(),'更新到：')]/a/text()",
+    "updateTime": "",
+    "intro": "//ol/li/p[starts-with(text(),'简介：')]/text() || @js:return result.replace('简介：','');",
+    "cover": "",
+    "moreConfig": "{\"encoding\":\"UTF-8\"}"
+  },
+  "detail": {
+    "bookName": "//h1/text()",
+    "author": "//a[contains(@href,'/author/')]/text()",
+    "cover": "",
+    "intro": "//p[not(contains(text(),'最新章节'))] || @js:let reg = new RegExp('<br />', 'g'); return result.replace(reg, '\\n');",
+    "status": "@js:if(result.includes('大结局')) return '完成'; else return '连载';",
+    "updateTime": "//text()[contains(.,'更新时间：')]/following-sibling::text()",
+    "category": ""
+  },
+  "chapterList": {
+    "request": "@js:return result;", // result is bookUrl
+    "chapterName": "//a[contains(text(),'第') and contains(text(),'章')]/text()",
+    "chapterUrl": "//a[contains(text(),'第') and contains(text(),'章')]/@href || @js:return 'https://www.101kanshu.net' + result;"
+  },
+  "content": {
+    "request": "@js:return {'url':result};",
+    "content": "//div[contains(@class, 'content')]//p || @js:return result.join('\\n\\n').replace(/&nbsp;/g, ' ').replace(/<br \\/>/g, '\\n');"
+  },
+  "category": {
+    "request": "@js:return 'https://www.101kanshu.net/novels/class/' + params.filters.genre + '_' + params.pageIndex + '.html';",
+    "bookName": "//ol/li/h3/a/text()",
+    "bookUrl": "//ol/li/h3/a/@href || @js:return 'https://www.101kanshu.net' + result;",
+    "author": "//ol/li/p[starts-with(text(),'作者：')]/text() || @js:return result.replace('作者：','');",
+    "latestChapter": "//ol/li/p[starts-with(text(),'更新到：')]/a/text()",
+    "updateTime": "",
+    "intro": "//ol/li/p[starts-with(text(),'简介：')]/text() || @js:return result.replace('简介：','');",
+    "cover": "",
+    "moreKeys": "{\"pageSize\":20,\"requestFilters\":[{\"items\":[{\"value\":\"1\",\"title\":\"玄幻魔法\"},{\"value\":\"2\",\"title\":\"武侠修真\"},{\"value\":\"3\",\"title\":\"都市言情\"},{\"value\":\"4\",\"title\":\"历史军事\"},{\"value\":\"5\",\"title\":\"游戏竞技\"},{\"value\":\"6\",\"title\":\"科幻灵异\"},{\"value\":\"7\",\"title\":\"女生耽美\"}],\"key\":\"genre\"}]}"
+  }
+}
